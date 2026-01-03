@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LabQMS 系統操作手冊 | ISO 17025 數位助理</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        .feature-card:hover { transform: translateY(-2px); transition: all 0.3s ease; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased">
+
+    <!-- Header -->
+    <header class="bg-slate-900 text-white py-12 px-6">
+        <div class="max-w-5xl mx-auto">
+            <div class="flex items-center gap-4 mb-4">
+                <span class="bg-indigo-600 px-3 py-1 rounded text-xs font-bold tracking-widest uppercase">Professional Guide</span>
+            </div>
+            <h1 class="text-4xl font-extrabold tracking-tight mb-2">LabQMS ISO 17025 數位助理</h1>
+            <p class="text-slate-400 text-lg max-w-2xl italic">本系統專為實驗室品質管理設計，旨在透過自動化邏輯與 AI 輔助，確保儀器、人員與標準物資完全符合 TAF/ISO 17025 認證規範。</p>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto py-12 px-6 space-y-16">
+        
+        <!-- Quick Links -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm feature-card">
+                <div class="w-10 h-10 bg-indigo-100 text-indigo-600 rounded-lg flex items-center justify-center mb-4 font-bold">01</div>
+                <h3 class="font-bold text-lg mb-2">儀器校正矩陣</h3>
+                <p class="text-sm text-slate-500 leading-relaxed">自動計算有效日期與提前一個月的「預計送校」計畫，確保無縫接軌。</p>
+            </div>
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm feature-card">
+                <div class="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-lg flex items-center justify-center mb-4 font-bold">02</div>
+                <h3 class="font-bold text-lg mb-2">人員能力追蹤</h3>
+                <p class="text-sm text-slate-500 leading-relaxed">內訓 36h / 外訓 12h 之法定時數即時統計，自動識別過期證書。</p>
+            </div>
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm feature-card">
+                <div class="w-10 h-10 bg-amber-100 text-amber-600 rounded-lg flex items-center justify-center mb-4 font-bold">03</div>
+                <h3 class="font-bold text-lg mb-2">AI 數位助理</h3>
+                <p class="text-sm text-slate-500 leading-relaxed">整合 Gemini API，快速掃描所有模組數據，產生稽核缺失預警報告。</p>
+            </div>
+        </section>
+
+        <!-- Module 1: Instruments -->
+        <section class="space-y-6">
+            <div class="flex items-center gap-3 border-l-4 border-indigo-600 pl-4">
+                <h2 class="text-2xl font-bold">儀器管理：校正與矩陣</h2>
+            </div>
+            <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+                <div class="p-8 space-y-6">
+                    <div>
+                        <h4 class="font-bold text-indigo-600 mb-2">● 自動計算邏輯 (Compliance Calculation)</h4>
+                        <p class="text-sm text-slate-600 leading-relaxed">當錄入「校正報告日期」時，系統會依據該儀器的「校正週期」自動推算：<br>
+                        <code class="bg-slate-100 px-2 py-1 rounded font-mono text-indigo-700">有效截止日 = 報告日 + 週期(月) - 1天</code></p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-indigo-600 mb-2">● 年度送校計畫矩陣 (Plan Matrix)</h4>
+                        <p class="text-sm text-slate-600 mb-4">系統提供「矩陣視圖」，以顏色區分管理狀態：</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="flex items-center gap-3 p-3 bg-indigo-50 border border-indigo-100 rounded-xl">
+                                <div class="w-8 h-8 bg-indigo-500 rounded flex items-center justify-center text-[10px] text-white font-bold">P</div>
+                                <div class="text-[11px] font-bold">預計送校月<br><span class="text-slate-400 font-normal">截止日前一個月</span></div>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-amber-50 border border-amber-100 rounded-xl">
+                                <div class="w-8 h-8 bg-amber-500 rounded flex items-center justify-center text-[10px] text-white font-bold">15</div>
+                                <div class="text-[11px] font-bold">預計到期月<br><span class="text-slate-400 font-normal">本月即將失效</span></div>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-red-50 border border-red-100 rounded-xl animate-pulse">
+                                <div class="w-8 h-8 bg-red-600 rounded flex items-center justify-center text-[10px] text-white font-bold">!</div>
+                                <div class="text-[11px] font-bold">已過期<br><span class="text-slate-400 font-normal">嚴禁於實驗使用</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Module 2: Personnel -->
+        <section class="space-y-6">
+            <div class="flex items-center gap-3 border-l-4 border-emerald-600 pl-4">
+                <h2 class="text-2xl font-bold">人員管理：能力與教育訓練</h2>
+            </div>
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="p-8">
+                    <div class="flex flex-col md:flex-row gap-8">
+                        <div class="flex-1 space-y-4">
+                            <h4 class="font-bold text-emerald-600">● 訓練達成率監控</h4>
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                系統自動追蹤每位技術員的年度訓練時數：<br>
+                                - <span class="font-bold">內訓 (Internal):</span> 門檻 36 小時。<br>
+                                - <span class="font-bold">外訓 (External):</span> 門檻 12 小時。<br>
+                                達成率將以進度條直觀呈現，未達標者將自動標註「時數缺口」。
+                            </p>
+                        </div>
+                        <div class="flex-1 space-y-4">
+                            <h4 class="font-bold text-emerald-600">● 狀態識別 (Status Labels)</h4>
+                            <ul class="space-y-2">
+                                <li class="flex items-center gap-2 text-xs font-bold text-emerald-600 bg-emerald-50 p-2 rounded-lg border border-emerald-100">
+                                    ✓ 合規：所有訓練證書皆在有效期內且時數達標。
+                                </li>
+                                <li class="flex items-center gap-2 text-xs font-bold text-amber-600 bg-amber-50 p-2 rounded-lg border border-amber-100">
+                                    ⚠ 待回訓：已達預定回訓日，但尚未超過最終效期。
+                                </li>
+                                <li class="flex items-center gap-2 text-xs font-bold text-red-600 bg-red-50 p-2 rounded-lg border border-red-100">
+                                    ✖ 過期：認可資格證書已失效，喪失報告簽署或技術操作權限。
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Module 3: Materials -->
+        <section class="space-y-6">
+            <div class="flex items-center gap-3 border-l-4 border-amber-600 pl-4">
+                <h2 class="text-2xl font-bold">標準物資：Lot 與效期管理</h2>
+            </div>
+            <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
+                <p class="text-sm text-slate-600 mb-6">嚴格追蹤批號 (Lot Number) 與庫存，防止實驗室誤用過期標準品 (Reference Materials)。</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="border border-slate-100 p-4 rounded-xl bg-slate-50">
+                        <h5 class="text-xs font-bold text-slate-400 uppercase mb-3">購入登錄 (Receipt)</h5>
+                        <p class="text-xs text-slate-500">輸入 Lot 號碼與數量，系統自動鎖定有效期限。一旦過期，系統將強制顯示「嚴禁使用」警語並發出警報。</p>
+                    </div>
+                    <div class="border border-slate-100 p-4 rounded-xl bg-slate-50">
+                        <h5 class="text-xs font-bold text-slate-400 uppercase mb-3">合規警示 (Alert)</h5>
+                        <p class="text-xs text-slate-500">儀表板 (Dashboard) 會實時顯示剩餘有效天數，幫助樣本管理員提前進行採購計畫。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Role Permissions -->
+        <section class="bg-indigo-900 text-white rounded-3xl p-10 shadow-2xl shadow-indigo-200">
+            <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">系統角色權限清單</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm">
+                    <thead class="text-indigo-300 border-b border-indigo-800">
+                        <tr>
+                            <th class="py-3">模組 / 權限</th>
+                            <th class="py-3">管理代表</th>
+                            <th class="py-3">儀器/樣本管理員</th>
+                            <th class="py-3">技術員</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-indigo-800">
+                        <tr><td class="py-4">儀器資料修改/校正登錄</td><td>✓</td><td>✓</td><td>檢視</td></tr>
+                        <tr><td class="py-4">標準物資採購登錄</td><td>✓</td><td>✓</td><td>檢視</td></tr>
+                        <tr><td class="py-4">人員資格授權與刪除</td><td>✓</td><td>✕</td><td>✕</td></tr>
+                        <tr><td class="py-4">教育訓練紀錄錄入</td><td>✓</td><td>✕</td><td>檢視</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-100 py-12 px-6 border-t border-slate-200 mt-12">
+        <div class="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-sm text-slate-500">
+                <p class="font-bold">LabQMS ISO 17025 Digital Assistant</p>
+                <p>© 2024 Laboratory Quality System Management. All Rights Reserved.</p>
+            </div>
+            <div class="flex gap-4">
+                <span class="px-3 py-1 bg-white border border-slate-200 rounded text-[10px] font-bold text-slate-400 uppercase">Rev 1.0.2</span>
+                <span class="px-3 py-1 bg-white border border-slate-200 rounded text-[10px] font-bold text-slate-400 uppercase">ISO 17025 Compliance</span>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
