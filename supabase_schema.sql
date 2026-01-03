@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS public.instruments (
     instrument_name TEXT NOT NULL,
     brand TEXT,
     model TEXT,
+    factory_no TEXT,
     purchase_date DATE,
     purchase_amount NUMERIC(12, 2),
     status TEXT NOT NULL, -- Enum values: 廠內, 維修, 送校, 報廢, 待送校, 出借, 封存
@@ -36,6 +37,9 @@ CREATE TABLE IF NOT EXISTS public.instruments (
     calibration_logs JSONB DEFAULT '[]'::jsonb,
     loan_logs JSONB DEFAULT '[]'::jsonb,
     specification TEXT,
+    acceptance_criteria TEXT,
+    accessories TEXT,
+    notes TEXT,
     deleted_at TIMESTAMPTZ,
     deleted_by TEXT,
     created_at TIMESTAMPTZ DEFAULT NOW()

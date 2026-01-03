@@ -154,6 +154,7 @@ const InstrumentModule: React.FC<InstrumentModuleProps> = ({ state, setState }) 
       instrumentName: formData.get('instrumentName') as string,
       brand: formData.get('brand') as string,
       model: formData.get('model') as string,
+      factoryNo: formData.get('factoryNo') as string,
       purchaseDate: formData.get('purchaseDate') as string,
       purchaseAmount: parseInt(formData.get('purchaseAmount') as string || '0'),
       status: formData.get('status') as InstrumentStatus,
@@ -163,6 +164,9 @@ const InstrumentModule: React.FC<InstrumentModuleProps> = ({ state, setState }) 
       vendor: editingInstrument?.vendor || '',
       custodian: formData.get('custodian') as string,
       specification: formData.get('specification') as string,
+      acceptanceCriteria: formData.get('acceptanceCriteria') as string,
+      accessories: formData.get('accessories') as string,
+      notes: formData.get('notes') as string,
       maintenanceLogs: editingInstrument ? editingInstrument.maintenanceLogs : [],
       calibrationLogs: editingInstrument ? editingInstrument.calibrationLogs : [],
       loanLogs: editingInstrument ? editingInstrument.loanLogs : []
@@ -237,8 +241,11 @@ const InstrumentModule: React.FC<InstrumentModuleProps> = ({ state, setState }) 
       id: `log-${Date.now()}`,
       date: formData.get('logDate') as string,
       description: formData.get('logDescription') as string,
+      statusBefore: formData.get('logStatusBefore') as string,
       result: formData.get('logResult') as string,
-      cost: parseInt(formData.get('logCost') as string || '0')
+      acceptedBy: formData.get('logAcceptedBy') as string,
+      cost: parseInt(formData.get('logCost') as string || '0'),
+      notes: formData.get('logNotes') as string
     };
 
     const updatedInstrument = {
@@ -858,13 +865,17 @@ const InstrumentModule: React.FC<InstrumentModuleProps> = ({ state, setState }) 
                           <label className="block text-[10px] font-bold text-slate-400 uppercase mb-0.5">儀器編號</label>
                           <input name="instrumentNo" defaultValue={editingInstrument?.instrumentNo} readOnly={!!editingInstrument} required className="w-full px-2 py-1.5 text-sm bg-white border border-slate-200 rounded outline-none focus:ring-2 focus:ring-indigo-500 font-mono font-bold" />
                         </div>
-                        <div>
+                        <div className="col-span-2">
                           <label className="block text-[10px] font-bold text-slate-400 uppercase mb-0.5">廠牌</label>
                           <input name="brand" defaultValue={editingInstrument?.brand} required className="w-full px-2 py-1.5 text-sm bg-white border border-slate-200 rounded outline-none focus:ring-2 focus:ring-indigo-500" />
                         </div>
-                        <div>
-                          <label className="block text-[10px] font-bold text-slate-400 uppercase mb-0.5">型號</label>
+                        <div className="col-span-1">
+                          <label className="block text-[10px] font-bold text-slate-400 uppercase mb-0.5">型號/機型</label>
                           <input name="model" defaultValue={editingInstrument?.model} required className="w-full px-2 py-1.5 text-sm bg-white border border-slate-200 rounded outline-none focus:ring-2 focus:ring-indigo-500" />
+                        </div>
+                        <div className="col-span-1">
+                          <label className="block text-[10px] font-bold text-slate-400 uppercase mb-0.5">出廠號碼</label>
+                          <input name="factoryNo" defaultValue={editingInstrument?.factoryNo} className="w-full px-2 py-1.5 text-sm bg-white border border-slate-200 rounded outline-none focus:ring-2 focus:ring-indigo-500" />
                         </div>
 
                         <div className="col-span-4 flex items-center gap-2 border-b border-slate-200 pb-1 mb-1 mt-2">
@@ -925,9 +936,21 @@ const InstrumentModule: React.FC<InstrumentModuleProps> = ({ state, setState }) 
                             {Object.values(InstrumentStatus).map(s => <option key={s} value={s}>{s}</option>)}
                           </select>
                         </div>
-                        <div className="col-span-3">
+                        <div className="col-span-2">
                           <label className="block text-[10px] font-bold text-slate-400 uppercase mb-0.5">規格描述</label>
                           <input name="specification" defaultValue={editingInstrument?.specification} className="w-full px-2 py-1.5 text-sm bg-white border border-slate-200 rounded outline-none focus:ring-2 focus:ring-indigo-500" />
+                        </div>
+                        <div className="col-span-2">
+                          <label className="block text-[10px] font-bold text-slate-400 uppercase mb-0.5">允收條件</label>
+                          <input name="acceptanceCriteria" defaultValue={editingInstrument?.acceptanceCriteria} placeholder="例如：校正判定之允收標準" className="w-full px-2 py-1.5 text-sm bg-white border border-slate-200 rounded outline-none focus:ring-2 focus:ring-indigo-500" />
+                        </div>
+                        <div className="col-span-2">
+                          <label className="block text-[10px] font-bold text-slate-400 uppercase mb-0.5">儀器附件</label>
+                          <input name="accessories" defaultValue={editingInstrument?.accessories} className="w-full px-2 py-1.5 text-sm bg-white border border-slate-200 rounded outline-none focus:ring-2 focus:ring-indigo-500" />
+                        </div>
+                        <div className="col-span-2">
+                          <label className="block text-[10px] font-bold text-slate-400 uppercase mb-0.5">備註</label>
+                          <input name="notes" defaultValue={editingInstrument?.notes} className="w-full px-2 py-1.5 text-sm bg-white border border-slate-200 rounded outline-none focus:ring-2 focus:ring-indigo-500" />
                         </div>
                       </div>
                     </div>
@@ -1168,13 +1191,25 @@ const InstrumentModule: React.FC<InstrumentModuleProps> = ({ state, setState }) 
                                 <label className="block text-xs font-bold text-indigo-900 mb-1">費用</label>
                                 <input type="number" name="logCost" placeholder="0" className="w-full px-2 py-1 text-sm rounded border border-indigo-200 outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm" />
                               </div>
-                              <div className="col-span-2">
-                                <label className="block text-xs font-bold text-indigo-900 mb-1">結果</label>
+                              <div className="col-span-1">
+                                <label className="block text-xs font-bold text-indigo-900 mb-1">驗收者</label>
+                                <input name="logAcceptedBy" placeholder="驗收人員" required className="w-full px-2 py-1 text-sm rounded border border-indigo-200 outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm" />
+                              </div>
+                              <div className="col-span-1">
+                                <label className="block text-xs font-bold text-indigo-900 mb-1">結果/判定</label>
                                 <input name="logResult" placeholder="例如: 已修復" required className="w-full px-2 py-1 text-sm rounded border border-indigo-200 outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm" />
                               </div>
-                              <div className="col-span-4">
+                              <div className="col-span-2">
+                                <label className="block text-xs font-bold text-indigo-900 mb-1">維修前狀況</label>
+                                <input name="logStatusBefore" placeholder="修復前之異常描述" required className="w-full px-2 py-1 text-sm rounded border border-indigo-200 outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm" />
+                              </div>
+                              <div className="col-span-2">
                                 <label className="block text-xs font-bold text-indigo-900 mb-1">維修保養內容</label>
                                 <input name="logDescription" placeholder="請描述維修或保養項目..." required className="w-full px-2 py-1 text-sm rounded border border-indigo-200 outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm" />
+                              </div>
+                              <div className="col-span-4">
+                                <label className="block text-xs font-bold text-indigo-900 mb-1">備註</label>
+                                <input name="logNotes" placeholder="其他說明" className="w-full px-2 py-1 text-sm rounded border border-indigo-200 outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm" />
                               </div>
                             </form>
                           </div>
@@ -1184,9 +1219,11 @@ const InstrumentModule: React.FC<InstrumentModuleProps> = ({ state, setState }) 
                               <thead className="bg-slate-50 border-b border-slate-100 sticky top-0 z-10">
                                 <tr>
                                   <th className="px-4 py-3 text-xs font-bold text-slate-500">日期</th>
-                                  <th className="px-4 py-3 text-xs font-bold text-slate-500">內容</th>
+                                  <th className="px-4 py-3 text-xs font-bold text-slate-500">維修內容</th>
+                                  <th className="px-4 py-3 text-xs font-bold text-slate-500">維修前狀況</th>
+                                  <th className="px-4 py-3 text-xs font-bold text-slate-500">判定結果</th>
+                                  <th className="px-4 py-3 text-xs font-bold text-slate-500">驗收者</th>
                                   <th className="px-4 py-3 text-xs font-bold text-slate-500">費用</th>
-                                  <th className="px-4 py-3 text-xs font-bold text-slate-500">結果</th>
                                 </tr>
                               </thead>
                               <tbody className="divide-y divide-slate-100">
@@ -1194,8 +1231,10 @@ const InstrumentModule: React.FC<InstrumentModuleProps> = ({ state, setState }) 
                                   <tr key={log.id} className="hover:bg-slate-50">
                                     <td className="px-4 py-3 text-sm font-mono text-slate-700">{log.date}</td>
                                     <td className="px-4 py-3 text-sm font-bold text-slate-700">{log.description}</td>
+                                    <td className="px-4 py-3 text-sm text-slate-600">{log.statusBefore}</td>
+                                    <td className="px-4 py-3 text-sm font-bold text-indigo-600">{log.result}</td>
+                                    <td className="px-4 py-3 text-sm text-slate-600">{log.acceptedBy}</td>
                                     <td className="px-4 py-3 text-sm font-mono text-slate-500">NT$ {log.cost.toLocaleString()}</td>
-                                    <td className="px-4 py-3 text-sm text-slate-600">{log.result}</td>
                                   </tr>
                                 ))}
                                 {editingInstrument.maintenanceLogs.length === 0 && (

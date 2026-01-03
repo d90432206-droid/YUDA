@@ -1,8 +1,8 @@
 
 import React, { useState } from 'react';
 import { AppState, User, TrainingRecord } from '../types';
-import { TRAINING_REQUIREMENTS } from '../constants';
-import { User as UserIcon, ShieldCheck, Trash, Edit, Plus, X, Key, BadgeCheck, Tag, Award, BookOpen, Clock, Calendar, GraduationCap, AlertCircle, Briefcase, ChevronRight, CheckCircle2, List } from 'lucide-react';
+import { TRAINING_REQUIREMENTS, TRAINING_COURSES } from '../constants';
+import { User as UserIcon, ShieldCheck, Trash, Edit, Plus, X, Key, BadgeCheck, Tag, Award, BookOpen, Clock, Calendar, GraduationCap, AlertCircle, Briefcase, ChevronRight, CheckCircle2, List, Printer } from 'lucide-react';
 
 interface PersonnelModuleProps {
   state: AppState;
@@ -27,6 +27,8 @@ const PersonnelModule: React.FC<PersonnelModuleProps> = ({ state, setState }) =>
 
   const [qualInput, setQualInput] = useState('');
   const [activeModalTab, setActiveModalTab] = useState<'basic' | 'training'>('basic');
+  const [selectedCourseCategory, setSelectedCourseCategory] = useState<string>('');
+  const [selectedPredefinedCourse, setSelectedPredefinedCourse] = useState<string>('');
 
   const canModify = state.currentUser?.qualifications.includes('管理代表');
 
@@ -163,6 +165,91 @@ const PersonnelModule: React.FC<PersonnelModuleProps> = ({ state, setState }) =>
     return status;
   };
 
+  const handlePrintAnnualPlan = () => {
+    const currentYear = new Date().getFullYear();
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) return;
+
+    const html = `
+      <html>
+        <head>
+          <title>年度教育訓練計畫 - ${currentYear}</title>
+          <style>
+            @page { size: A4 landscape; margin: 15mm; }
+            body { font-family: "Microsoft JhengHei", sans-serif; color: #1e293b; line-height: 1.4; padding: 20px; }
+            .header { text-align: center; margin-bottom: 20px; }
+            .title { font-size: 24px; font-weight: bold; border-bottom: 2px solid #000; display: inline-block; padding-bottom: 5px; }
+            .meta { margin-top: 10px; font-size: 14px; text-align: right; }
+            table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 12px; }
+            th, td { border: 1px solid #000; padding: 8px; text-align: center; }
+            th { background: #f8fafc; }
+            .stamp-area { margin-top: 40px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; text-align: center; }
+            .stamp-box { border: 1px solid #000; height: 100px; display: flex; flex-direction: column; justify-content: space-between; padding: 5px; }
+            .stamp-label { font-weight: bold; border-bottom: 1px solid #000; padding-bottom: 2px; margin-bottom: 5px; }
+            @media print { .no-print { display: none; } }
+          </style>
+        </head>
+        <body>
+          <div class="no-print" style="margin-bottom: 20px;">
+            <button onclick="window.print()" style="background: #6366f1; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">列印計畫表</button>
+          </div>
+          <div class="header">
+            <div class="title">祐大技術顧問股份有限公司 - ${currentYear} 年度教育訓練計畫表 (圖二)</div>
+            <div class="meta">計畫日期: ${new Date().toISOString().split('T')[0]}</div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>姓名</th>
+                <th>認可資格</th>
+                <th>訓練類型</th>
+                <th>課程名稱</th>
+                <th>主辦單位</th>
+                <th>預定日期</th>
+                <th>時數</th>
+                <th>備註</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${state.users.map(u => `
+                <tr>
+                  <td rowspan="${Math.max(1, u.trainingLogs.length)}">${u.name}</td>
+                  <td rowspan="${Math.max(1, u.trainingLogs.length)}">${u.qualifications.join(', ')}</td>
+                  ${u.trainingLogs.length > 0 ? `
+                    <td>${u.trainingLogs[0].type}</td>
+                    <td>${u.trainingLogs[0].courseName}</td>
+                    <td>${u.trainingLogs[0].provider}</td>
+                    <td>${u.trainingLogs[0].date}</td>
+                    <td>${u.trainingLogs[0].hours}</td>
+                    <td></td>
+                  ` : '<td colspan="6">尚無計畫</td>'}
+                </tr>
+                ${u.trainingLogs.slice(1).map(log => `
+                  <tr>
+                    <td>${log.type}</td>
+                    <td>${log.courseName}</td>
+                    <td>${log.provider}</td>
+                    <td>${log.date}</td>
+                    <td>${log.hours}</td>
+                    <td></td>
+                  </tr>
+                `).join('')}
+              `).join('')}
+            </tbody>
+          </table>
+          <div class="stamp-area">
+            <div class="stamp-box"><div class="stamp-label">管理代表</div></div>
+            <div class="stamp-box"><div class="stamp-label">品質主管</div></div>
+            <div class="stamp-box"><div class="stamp-label">技術主管</div></div>
+            <div class="stamp-box"><div class="stamp-label">核定</div></div>
+          </div>
+        </body>
+      </html>
+    `;
+    printWindow.document.write(html);
+    printWindow.document.close();
+  };
+
   return (
     <div className="space-y-6 text-slate-800">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -171,13 +258,22 @@ const PersonnelModule: React.FC<PersonnelModuleProps> = ({ state, setState }) =>
           <p className="text-slate-500 text-sm italic">整合認可資格授權、內外訓紀錄與法定時數達成率追蹤</p>
         </div>
         {canModify && (
-          <button
-            onClick={handleOpenAdd}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-all font-medium shadow-lg shadow-indigo-100"
-          >
-            <Plus size={18} />
-            新增人員
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={handlePrintAnnualPlan}
+              className="bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 px-4 py-2 rounded-lg flex items-center gap-2 transition-all font-medium shadow-sm"
+            >
+              <Printer size={18} />
+              列印年度計畫表 (圖二)
+            </button>
+            <button
+              onClick={handleOpenAdd}
+              className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-all font-medium shadow-lg shadow-indigo-100"
+            >
+              <Plus size={18} />
+              新增人員
+            </button>
+          </div>
         )}
       </div>
 
@@ -436,17 +532,62 @@ const PersonnelModule: React.FC<PersonnelModuleProps> = ({ state, setState }) =>
                           <Plus size={14} className="text-emerald-500" /> 登錄新訓練課程
                         </h4>
                         <form onSubmit={handleAddTrainingLog} className="space-y-4">
+                          <div className="p-3 bg-indigo-50/50 rounded-xl border border-indigo-100 flex flex-col md:flex-row gap-4">
+                            <div className="flex-1">
+                              <label className="block text-[10px] font-bold text-indigo-600 uppercase mb-1">快速選課 (Course Preset)</label>
+                              <select
+                                value={selectedCourseCategory}
+                                onChange={(e) => {
+                                  setSelectedCourseCategory(e.target.value);
+                                  setSelectedPredefinedCourse('');
+                                }}
+                                className="w-full px-3 py-1.5 text-xs bg-white border border-indigo-200 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500 font-bold"
+                              >
+                                <option value="">選擇課程類別...</option>
+                                {Object.entries(TRAINING_COURSES).map(([key, val]) => (
+                                  <option key={key} value={key}>{val.label}</option>
+                                ))}
+                              </select>
+                            </div>
+                            <div className="flex-1">
+                              <label className="block text-[10px] font-bold text-indigo-600 uppercase mb-1">特定子課程 (Sub-Course)</label>
+                              <select
+                                disabled={!selectedCourseCategory}
+                                value={selectedPredefinedCourse}
+                                onChange={(e) => {
+                                  const courseName = e.target.value;
+                                  setSelectedPredefinedCourse(courseName);
+                                  if (courseName && selectedCourseCategory) {
+                                    const course = (TRAINING_COURSES as any)[selectedCourseCategory].courses.find((c: any) => c.name === courseName);
+                                    if (course) {
+                                      const nameInput = document.getElementById('training-course-name') as HTMLInputElement;
+                                      const hoursInput = document.getElementById('training-course-hours') as HTMLInputElement;
+                                      if (nameInput) nameInput.value = course.name;
+                                      if (hoursInput) hoursInput.value = course.hours.toString();
+                                    }
+                                  }
+                                }}
+                                className="w-full px-3 py-1.5 text-xs bg-white border border-indigo-200 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500 font-bold disabled:opacity-50"
+                              >
+                                <option value="">選擇課程內容...</option>
+                                {selectedCourseCategory && (TRAINING_COURSES as any)[selectedCourseCategory].courses.map((c: any) => (
+                                  <option key={c.name} value={c.name}>{c.name} ({c.hours}h)</option>
+                                ))}
+                              </select>
+                            </div>
+                          </div>
+
                           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                             <select name="type" className="px-3 py-2 text-sm border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
                               <option value="內訓">內訓 (Internal)</option>
                               <option value="外訓">外訓 (External)</option>
                             </select>
-                            <input name="courseName" placeholder="課程名稱" required className="md:col-span-2 px-3 py-2 text-sm border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none" />
+                            <input id="training-course-name" name="courseName" placeholder="課程名稱" required className="md:col-span-2 px-3 py-2 text-sm border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none" />
                           </div>
                           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                             <input name="provider" placeholder="受訓單位" required className="px-3 py-2 text-sm border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none" />
                             <div className="relative">
-                              <input type="number" step="0.5" name="hours" placeholder="時數" required className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none pr-8" />
+                              <input id="training-course-hours" type="number" step="0.5" name="hours" placeholder="時數" required className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none pr-8" />
                               <span className="absolute right-3 top-2.5 text-xs text-slate-400">hr</span>
                             </div>
                             <input type="date" name="date" required className="px-3 py-2 text-sm border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none" />
