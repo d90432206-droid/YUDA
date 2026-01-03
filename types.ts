@@ -38,8 +38,11 @@ export interface MaintenanceRecord {
   id: string;
   date: string;
   description: string;
-  result: string;
+  statusBefore: string; // 維修前狀況
+  result: string; // 判定/結果
+  acceptedBy: string; // 驗收者
   cost: number;
+  notes?: string;
 }
 
 export interface CalibrationRecord {
@@ -52,10 +55,11 @@ export interface CalibrationRecord {
 }
 
 export interface Instrument {
-  instrumentNo: string;    // 儀器編號
+  instrumentNo: string;    // 財產編號 (H0001 / L0029)
   instrumentName: string;  // 儀器名稱
   brand: string;           // 廠牌
-  model: string;           // 型號
+  model: string;           // 型號/機型 (Model)
+  factoryNo?: string;      // 出廠號碼 (Lot No)
   purchaseDate: string;    // 購入日期
   purchaseAmount: number;  // 購入金額
   status: InstrumentStatus;
@@ -68,6 +72,9 @@ export interface Instrument {
   calibrationLogs: CalibrationRecord[];
   loanLogs: LoanRecord[];
   specification?: string;
+  acceptanceCriteria?: string; // 允收條件 (例如：校正判定之允收標準)
+  accessories?: string;      // 儀器附件
+  notes?: string;           // 備註
   deletedAt?: string;
   deletedBy?: string;
 }
