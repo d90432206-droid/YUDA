@@ -78,14 +78,14 @@ const MaterialModule: React.FC<MaterialModuleProps> = ({ state, setState }) => {
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-slate-800">介質管理模組</h2>
-          <p className="text-slate-500 text-sm italic">監控標準品效期與批號(Lot)庫存，僅限樣本管理員操作</p>
+          <h2 className="text-2xl font-bold text-slate-800 text-center md:text-left">介質管理模組</h2>
+          <p className="text-slate-500 text-sm italic text-center md:text-left">監控標準品效期與批號(Lot)庫存，僅限樣本管理員操作</p>
         </div>
 
         {canModify && (
           <button
             onClick={() => { setEditingMaterial(null); setIsFormOpen(true); }}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-all font-medium shadow-lg shadow-indigo-100"
+            className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 transition-all font-medium shadow-lg shadow-indigo-100"
           >
             <Plus size={18} />
             購入新物資

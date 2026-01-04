@@ -381,9 +381,9 @@ const PersonnelModule: React.FC<PersonnelModuleProps> = ({ state, setState }) =>
       </div>
 
       {isFormOpen && (
-        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[60] flex items-center justify-center p-0 lg:p-4">
-          <div className="bg-white w-full lg:max-w-5xl h-full lg:h-auto lg:rounded-2xl shadow-2xl overflow-hidden flex flex-col lg:max-h-[95vh]">
-            <div className="p-4 lg:p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[60] flex items-center justify-center p-0 md:p-4">
+          <div className="bg-white w-full md:max-w-5xl h-full md:h-auto md:rounded-2xl shadow-2xl overflow-hidden flex flex-col md:max-h-[95vh]">
+            <div className="p-4 md:p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50">
               <div className="flex items-center gap-3 lg:gap-4">
                 <div className="w-8 h-8 lg:w-10 lg:h-10 bg-indigo-600 text-white rounded-lg flex items-center justify-center flex-shrink-0">
                   <UserIcon size={18} lg:size={20} />
@@ -418,10 +418,10 @@ const PersonnelModule: React.FC<PersonnelModuleProps> = ({ state, setState }) =>
 
             <div className="flex-1 overflow-y-auto bg-slate-50/30 relative">
               {activeModalTab === 'basic' && (
-                <div className="p-4 lg:p-6">
-                  <form onSubmit={handleSaveUserBasic} className="space-y-4 lg:space-y-6">
+                <div className="p-4 md:p-6">
+                  <form onSubmit={handleSaveUserBasic} className="space-y-4 md:space-y-6">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                      <div className="sm:col-span-2 lg:col-span-1">
+                      <div className="sm:col-span-2 md:col-span-1">
                         <label className="block text-[10px] font-bold text-slate-400 uppercase mb-1">帳號 ID</label>
                         <input name="username" defaultValue={editingUser?.username} readOnly={!!editingUser} required className="w-full px-3 py-2 text-sm bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500" />
                       </div>

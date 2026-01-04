@@ -57,21 +57,21 @@ const Dashboard: React.FC<DashboardProps> = ({ state }) => {
 
   return (
     <div className="space-y-4 lg:space-y-6">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat) => (
-          <div key={stat.label} className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+          <div key={stat.label} className="bg-white p-4 md:p-6 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
             <div>
-              <p className="text-sm text-slate-500 font-medium">{stat.label}</p>
-              <h3 className="text-2xl font-bold text-slate-900 mt-1">{stat.value}</h3>
+              <p className="text-xs md:text-sm text-slate-500 font-medium">{stat.label}</p>
+              <h3 className="text-xl md:text-2xl font-bold text-slate-900 mt-1">{stat.value}</h3>
             </div>
-            <div className={`p-3 rounded-lg ${stat.bg} ${stat.color}`}>
-              <stat.icon size={24} />
+            <div className={`p-2.5 md:p-3 rounded-lg ${stat.bg} ${stat.color}`}>
+              <stat.icon size={20} className="md:w-6 md:h-6" />
             </div>
           </div>
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
         <div className="bg-white p-4 lg:p-6 rounded-xl border border-slate-200 shadow-sm">
           <h3 className="text-base lg:text-lg font-bold text-slate-800 mb-6">年度維修費用統計 (NTD)</h3>
           <div className="h-60 lg:h-64">
