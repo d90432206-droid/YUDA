@@ -56,8 +56,8 @@ const Dashboard: React.FC<DashboardProps> = ({ state }) => {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="space-y-4 lg:space-y-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat) => (
           <div key={stat.label} className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
             <div>
@@ -71,15 +71,15 @@ const Dashboard: React.FC<DashboardProps> = ({ state }) => {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-          <h3 className="text-lg font-bold text-slate-800 mb-6">年度維修費用統計 (NTD)</h3>
-          <div className="h-64">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
+        <div className="bg-white p-4 lg:p-6 rounded-xl border border-slate-200 shadow-sm">
+          <h3 className="text-base lg:text-lg font-bold text-slate-800 mb-6">年度維修費用統計 (NTD)</h3>
+          <div className="h-60 lg:h-64">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={maintenanceByMonth.length ? maintenanceByMonth : [{ name: '尚未記錄', cost: 0 }]}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="name" />
-                <YAxis />
+                <XAxis dataKey="name" tick={{ fontSize: 10 }} />
+                <YAxis tick={{ fontSize: 10 }} />
                 <Tooltip formatter={(value) => `NT$ ${Number(value).toLocaleString()}`} />
                 <Bar dataKey="cost" fill="#6366f1" radius={[4, 4, 0, 0]} />
               </BarChart>
@@ -87,17 +87,17 @@ const Dashboard: React.FC<DashboardProps> = ({ state }) => {
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-          <h3 className="text-lg font-bold text-slate-800 mb-6">儀器狀態分佈</h3>
-          <div className="h-64 flex flex-col md:flex-row items-center">
+        <div className="bg-white p-4 lg:p-6 rounded-xl border border-slate-200 shadow-sm">
+          <h3 className="text-base lg:text-lg font-bold text-slate-800 mb-6">儀器狀態分佈</h3>
+          <div className="h-64 lg:h-64 flex flex-col md:flex-row items-center">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
                   data={statusDistribution}
                   cx="50%"
                   cy="50%"
-                  innerRadius={60}
-                  outerRadius={80}
+                  innerRadius={50}
+                  outerRadius={70}
                   paddingAngle={5}
                   dataKey="value"
                 >
@@ -106,15 +106,15 @@ const Dashboard: React.FC<DashboardProps> = ({ state }) => {
                   ))}
                 </Pie>
                 <Tooltip />
-                <Legend content={renderCustomLegend} layout="vertical" align="right" verticalAlign="middle" />
+                <Legend content={renderCustomLegend} layout="horizontal" align="center" verticalAlign="bottom" wrapperStyle={{ paddingTop: '20px' }} />
               </PieChart>
             </ResponsiveContainer>
           </div>
         </div>
       </div>
 
-      <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-        <h3 className="text-lg font-bold text-slate-800 mb-4">合規性警報</h3>
+      <div className="bg-white p-4 lg:p-6 rounded-xl border border-slate-200 shadow-sm">
+        <h3 className="text-base lg:text-lg font-bold text-slate-800 mb-4">合規性警報</h3>
         <div className="space-y-3">
           {state.instruments.filter(i => i.status === InstrumentStatus.PENDING_CALIBRATION).map(inst => (
             <div key={inst.instrumentNo} className="flex items-center justify-between p-4 bg-amber-50 border border-amber-200 rounded-lg">

@@ -32,6 +32,12 @@ const App: React.FC = () => {
   });
 
   const [activeTab, setActiveTab] = useState<'dashboard' | 'instruments' | 'materials' | 'personnel'>('dashboard');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    // Close sidebar on mobile when switching tabs
+    setIsSidebarOpen(false);
+  }, [activeTab]);
 
   useEffect(() => {
     const today = new Date();
@@ -73,17 +79,20 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="flex h-screen bg-slate-50 overflow-hidden">
+    <div className="flex h-screen bg-slate-50 overflow-hidden relative">
       <Sidebar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         user={state.currentUser}
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
       />
 
-      <main className="flex-1 flex flex-col min-w-0">
+      <main className="flex-1 flex flex-col min-w-0 h-full">
         <Header
           user={state.currentUser}
           onLogout={handleLogout}
+          onMenuClick={() => setIsSidebarOpen(true)}
         />
 
         <div className="flex-1 overflow-y-auto p-6">

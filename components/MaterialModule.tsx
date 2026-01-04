@@ -188,9 +188,9 @@ const MaterialModule: React.FC<MaterialModuleProps> = ({ state, setState }) => {
       </div>
 
       {isFormOpen && (
-        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[60] flex items-center justify-center p-4">
-          <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden">
-            <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[60] flex items-center justify-center p-0 lg:p-4">
+          <div className="bg-white w-full lg:max-w-md h-full lg:h-auto lg:rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+            <div className="p-4 lg:p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50">
               <h3 className="text-lg font-bold text-slate-800">{editingMaterial ? '編輯物資資料' : '購入新物資'}</h3>
               <button onClick={() => setIsFormOpen(false)} className="p-2 text-slate-400 hover:bg-white rounded-full transition-all">
                 <X size={20} />

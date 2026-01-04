@@ -469,34 +469,34 @@ const InstrumentModule: React.FC<InstrumentModuleProps> = ({ state, setState }) 
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-slate-800 tracking-tight">儀器設備管理模組</h2>
-          <p className="text-slate-500 text-sm italic">管理實驗室設備之購入資訊、廠牌型號與校正履歷</p>
+          <h2 className="text-xl lg:text-2xl font-bold text-slate-800 tracking-tight text-center lg:text-left">儀器設備管理模組</h2>
+          <p className="text-slate-500 text-xs lg:text-sm italic text-center lg:text-left">管理實驗室設備之購入資訊、廠牌型號與校正履歷</p>
         </div>
-        <div className="flex items-center gap-3">
-          <div className="bg-white p-1 rounded-lg border border-slate-200 flex shadow-sm">
+        <div className="flex flex-wrap items-center justify-center lg:justify-end gap-2 lg:gap-3">
+          <div className="bg-white p-1 rounded-lg border border-slate-200 flex shadow-sm w-full lg:w-auto">
             <button
               onClick={() => setViewMode('list')}
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-semibold transition-all ${viewMode === 'list' ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-500 hover:bg-slate-50'}`}
+              className={`flex-1 lg:flex-none flex items-center justify-center gap-2 px-3 py-1.5 rounded-md text-sm font-semibold transition-all ${viewMode === 'list' ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-500 hover:bg-slate-50'}`}
             >
-              <List size={16} /> 列表清單
+              <List size={16} /> <span className="sm:inline">列表清單</span>
             </button>
             <button
               onClick={() => setViewMode('plan')}
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-semibold transition-all ${viewMode === 'plan' ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-500 hover:bg-slate-50'}`}
+              className={`flex-1 lg:flex-none flex items-center justify-center gap-2 px-3 py-1.5 rounded-md text-sm font-semibold transition-all ${viewMode === 'plan' ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-500 hover:bg-slate-50'}`}
             >
-              <LayoutGrid size={16} /> 年度送校計畫
+              <LayoutGrid size={16} /> <span className="sm:inline">年度送校</span>
             </button>
           </div>
           {canModify && (
-            <>
+            <div className="flex items-center gap-2 w-full lg:w-auto">
               <button
                 onClick={() => { setShowArchived(!showArchived); setViewMode('list'); }}
-                className={`px-4 py-2 rounded-lg flex items-center gap-2 transition-all font-medium border ${showArchived ? 'bg-slate-800 text-white border-slate-800' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'}`}
+                className={`flex-1 lg:flex-none px-4 py-2 rounded-lg flex items-center justify-center gap-2 transition-all font-medium border ${showArchived ? 'bg-slate-800 text-white border-slate-800' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'}`}
               >
                 <Archive size={18} />
-                {showArchived ? '返回列表' : '查看封存'}
+                {showArchived ? '返回' : '封存'}
               </button>
               <button
                 onClick={() => {
@@ -504,30 +504,30 @@ const InstrumentModule: React.FC<InstrumentModuleProps> = ({ state, setState }) 
                   setActiveModalTab('basic');
                   setIsFormOpen(true);
                 }}
-                className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-all font-medium shadow-lg shadow-indigo-100"
+                className="flex-1 lg:flex-none bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 transition-all font-medium shadow-lg shadow-indigo-100"
               >
                 <Plus size={18} />
                 新增儀器
               </button>
-            </>
+            </div>
           )}
         </div>
       </div>
 
-      <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row gap-4">
+      <div className="bg-white p-3 lg:p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col lg:flex-row gap-3 lg:gap-4">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
           <input
             type="text"
-            placeholder="搜尋儀器名稱、編號、廠牌..."
-            className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all text-slate-800"
+            placeholder="搜尋名稱、編號..."
+            className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all text-sm lg:text-base text-slate-800"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <div className="flex flex-wrap gap-2">
+        <div className="grid grid-cols-2 lg:flex lg:flex-wrap gap-2">
           <select
-            className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm font-medium text-slate-700"
+            className="px-3 lg:px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-xs lg:text-sm font-medium text-slate-700 h-10"
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
           >
@@ -537,11 +537,11 @@ const InstrumentModule: React.FC<InstrumentModuleProps> = ({ state, setState }) 
             ))}
           </select>
           <select
-            className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm font-medium text-slate-700"
+            className="px-3 lg:px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-xs lg:text-sm font-medium text-slate-700 h-10"
             value={loanTypeFilter}
             onChange={(e) => setLoanTypeFilter(e.target.value as any)}
           >
-            <option value="all">所有出借類型</option>
+            <option value="all">所有出借</option>
             <option value="單位">單位出借</option>
             <option value="個人">個人出借</option>
           </select>
@@ -801,9 +801,9 @@ const InstrumentModule: React.FC<InstrumentModuleProps> = ({ state, setState }) 
       {/* Form Modal */}
       {
         isFormOpen && (
-          <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[60] flex items-center justify-center p-4">
-            <div className="bg-white w-full max-w-4xl rounded-2xl shadow-2xl overflow-hidden flex flex-col h-[85vh]">
-              <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+          <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[60] flex items-center justify-center p-0 lg:p-4">
+            <div className="bg-white w-full max-w-4xl lg:rounded-2xl shadow-2xl overflow-hidden flex flex-col h-full lg:h-[85vh]">
+              <div className="p-4 lg:p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50">
                 <h3 className="text-lg font-bold text-slate-800">
                   {editingInstrument ? `編輯儀器: ${editingInstrument.instrumentName}` : '新增儀器資產'}
                 </h3>
@@ -847,35 +847,35 @@ const InstrumentModule: React.FC<InstrumentModuleProps> = ({ state, setState }) 
 
 
               {activeModalTab === 'basic' && (
-                <div className="px-6 py-4 border-b border-slate-100 bg-slate-50/50 text-slate-800 overflow-y-auto no-scrollbar">
+                <div className="px-3 lg:px-6 py-4 border-b border-slate-100 bg-slate-50/50 text-slate-800 overflow-y-auto no-scrollbar flex-1">
                   <form id="form-basic" onSubmit={handleSaveInstrumentBasic}>
-                    <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
-                      <div className="grid grid-cols-4 gap-x-4 gap-y-3">
+                    <div className="bg-slate-50 p-3 lg:p-4 rounded-xl border border-slate-200">
+                      <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-3 lg:gap-x-4 gap-y-3">
 
                         <div className="col-span-4 flex items-center gap-2 border-b border-slate-200 pb-1 mb-1">
                           <div className="w-5 h-5 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-[10px] font-bold">1</div>
                           <h4 className="font-bold text-slate-700 text-sm">基本識別資訊</h4>
                         </div>
 
-                        <div className="col-span-2">
+                        <div className="col-span-2 lg:col-span-2">
                           <label className="block text-[10px] font-bold text-slate-400 uppercase mb-0.5">儀器名稱</label>
-                          <input name="instrumentName" defaultValue={editingInstrument?.instrumentName} required className="w-full px-2 py-1.5 text-sm bg-white border border-slate-200 rounded outline-none focus:ring-2 focus:ring-indigo-500 font-bold" />
+                          <input name="instrumentName" defaultValue={editingInstrument?.instrumentName} required className="w-full px-2 py-1.5 text-xs lg:text-sm bg-white border border-slate-200 rounded outline-none focus:ring-2 focus:ring-indigo-500 font-bold" />
                         </div>
-                        <div className="col-span-2">
+                        <div className="col-span-2 lg:col-span-2">
                           <label className="block text-[10px] font-bold text-slate-400 uppercase mb-0.5">儀器編號</label>
-                          <input name="instrumentNo" defaultValue={editingInstrument?.instrumentNo} readOnly={!!editingInstrument} required className="w-full px-2 py-1.5 text-sm bg-white border border-slate-200 rounded outline-none focus:ring-2 focus:ring-indigo-500 font-mono font-bold" />
+                          <input name="instrumentNo" defaultValue={editingInstrument?.instrumentNo} readOnly={!!editingInstrument} required className="w-full px-2 py-1.5 text-xs lg:text-sm bg-white border border-slate-200 rounded outline-none focus:ring-2 focus:ring-indigo-500 font-mono font-bold" />
                         </div>
-                        <div className="col-span-2">
+                        <div className="col-span-1 lg:col-span-2">
                           <label className="block text-[10px] font-bold text-slate-400 uppercase mb-0.5">廠牌</label>
-                          <input name="brand" defaultValue={editingInstrument?.brand} required className="w-full px-2 py-1.5 text-sm bg-white border border-slate-200 rounded outline-none focus:ring-2 focus:ring-indigo-500" />
+                          <input name="brand" defaultValue={editingInstrument?.brand} required className="w-full px-2 py-1.5 text-xs lg:text-sm bg-white border border-slate-200 rounded outline-none focus:ring-2 focus:ring-indigo-500" />
                         </div>
-                        <div className="col-span-1">
+                        <div className="col-span-1 lg:col-span-1">
                           <label className="block text-[10px] font-bold text-slate-400 uppercase mb-0.5">型號/機型</label>
-                          <input name="model" defaultValue={editingInstrument?.model} required className="w-full px-2 py-1.5 text-sm bg-white border border-slate-200 rounded outline-none focus:ring-2 focus:ring-indigo-500" />
+                          <input name="model" defaultValue={editingInstrument?.model} required className="w-full px-2 py-1.5 text-xs lg:text-sm bg-white border border-slate-200 rounded outline-none focus:ring-2 focus:ring-indigo-500" />
                         </div>
-                        <div className="col-span-1">
+                        <div className="col-span-1 lg:col-span-1">
                           <label className="block text-[10px] font-bold text-slate-400 uppercase mb-0.5">出廠號碼</label>
-                          <input name="factoryNo" defaultValue={editingInstrument?.factoryNo} className="w-full px-2 py-1.5 text-sm bg-white border border-slate-200 rounded outline-none focus:ring-2 focus:ring-indigo-500" />
+                          <input name="factoryNo" defaultValue={editingInstrument?.factoryNo} className="w-full px-2 py-1.5 text-xs lg:text-sm bg-white border border-slate-200 rounded outline-none focus:ring-2 focus:ring-indigo-500" />
                         </div>
 
                         <div className="col-span-4 flex items-center gap-2 border-b border-slate-200 pb-1 mb-1 mt-2">

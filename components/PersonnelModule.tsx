@@ -251,24 +251,24 @@ const PersonnelModule: React.FC<PersonnelModuleProps> = ({ state, setState }) =>
   };
 
   return (
-    <div className="space-y-6 text-slate-800">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div className="space-y-4 lg:space-y-6 text-slate-800">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold">實驗室人員能力與訓練管理</h2>
-          <p className="text-slate-500 text-sm italic">整合認可資格授權、內外訓紀錄與法定時數達成率追蹤</p>
+          <h2 className="text-xl lg:text-2xl font-bold text-center lg:text-left">實驗室人員能力與訓練管理</h2>
+          <p className="text-slate-500 text-xs lg:text-sm italic text-center lg:text-left">整合認可資格授權、內外訓紀錄與法定時數達成率追蹤</p>
         </div>
         {canModify && (
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-2">
             <button
               onClick={handlePrintAnnualPlan}
-              className="bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 px-4 py-2 rounded-lg flex items-center gap-2 transition-all font-medium shadow-sm"
+              className="flex-1 lg:flex-none bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 px-4 py-2 rounded-lg flex items-center justify-center gap-2 transition-all font-medium shadow-sm text-sm"
             >
               <Printer size={18} />
-              列印年度計畫表 (圖二)
+              列印年度計畫表
             </button>
             <button
               onClick={handleOpenAdd}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-all font-medium shadow-lg shadow-indigo-100"
+              className="flex-1 lg:flex-none bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 transition-all font-medium shadow-lg shadow-indigo-100 text-sm"
             >
               <Plus size={18} />
               新增人員
@@ -381,15 +381,15 @@ const PersonnelModule: React.FC<PersonnelModuleProps> = ({ state, setState }) =>
       </div>
 
       {isFormOpen && (
-        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[60] flex items-center justify-center p-4">
-          <div className="bg-white w-full max-w-5xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh]">
-            <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50">
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-indigo-600 text-white rounded-lg flex items-center justify-center">
-                  <UserIcon size={20} />
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[60] flex items-center justify-center p-0 lg:p-4">
+          <div className="bg-white w-full lg:max-w-5xl h-full lg:h-auto lg:rounded-2xl shadow-2xl overflow-hidden flex flex-col lg:max-h-[95vh]">
+            <div className="p-4 lg:p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+              <div className="flex items-center gap-3 lg:gap-4">
+                <div className="w-8 h-8 lg:w-10 lg:h-10 bg-indigo-600 text-white rounded-lg flex items-center justify-center flex-shrink-0">
+                  <UserIcon size={18} lg:size={20} />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-slate-800">
+                  <h3 className="text-base lg:text-lg font-bold text-slate-800 truncate max-w-[200px] lg:max-w-none">
                     {editingUser ? `人員檔案: ${editingUser.name}` : '新增實驗室人員'}
                   </h3>
                   <p className="text-[10px] text-slate-500 font-mono">{editingUser?.username || 'NEW_ACCOUNT'}</p>
@@ -418,20 +418,20 @@ const PersonnelModule: React.FC<PersonnelModuleProps> = ({ state, setState }) =>
 
             <div className="flex-1 overflow-y-auto bg-slate-50/30 relative">
               {activeModalTab === 'basic' && (
-                <div className="p-6">
-                  <form onSubmit={handleSaveUserBasic} className="space-y-4">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div>
+                <div className="p-4 lg:p-6">
+                  <form onSubmit={handleSaveUserBasic} className="space-y-4 lg:space-y-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                      <div className="sm:col-span-2 lg:col-span-1">
                         <label className="block text-[10px] font-bold text-slate-400 uppercase mb-1">帳號 ID</label>
-                        <input name="username" defaultValue={editingUser?.username} readOnly={!!editingUser} required className="w-full px-3 py-1.5 text-sm bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500" />
+                        <input name="username" defaultValue={editingUser?.username} readOnly={!!editingUser} required className="w-full px-3 py-2 text-sm bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500" />
                       </div>
                       <div>
                         <label className="block text-[10px] font-bold text-slate-400 uppercase mb-1">真實姓名</label>
-                        <input name="name" defaultValue={editingUser?.name} required className="w-full px-3 py-1.5 text-sm bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500" />
+                        <input name="name" defaultValue={editingUser?.name} required className="w-full px-3 py-2 text-sm bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500" />
                       </div>
                       <div>
                         <label className="block text-[10px] font-bold text-slate-400 uppercase mb-1">登入密碼</label>
-                        <input name="password" type="password" placeholder={editingUser ? "保留空白則不修改" : "1111"} className="w-full px-3 py-1.5 text-sm bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500" />
+                        <input name="password" type="password" placeholder={editingUser ? "保留空白則不修改" : "1111"} className="w-full px-3 py-2 text-sm bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500" />
                       </div>
                     </div>
                     <div>
@@ -577,32 +577,32 @@ const PersonnelModule: React.FC<PersonnelModuleProps> = ({ state, setState }) =>
                             </div>
                           </div>
 
-                          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                            <select name="type" className="px-3 py-2 text-sm border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <select name="type" className="px-3 py-2 text-sm border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none h-10">
                               <option value="內訓">內訓 (Internal)</option>
                               <option value="外訓">外訓 (External)</option>
                             </select>
-                            <input id="training-course-name" name="courseName" placeholder="課程名稱" required className="md:col-span-2 px-3 py-2 text-sm border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none" />
+                            <input id="training-course-name" name="courseName" placeholder="課程名稱" required className="sm:col-span-2 px-3 py-2 text-sm border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none h-10" />
                           </div>
-                          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                            <input name="provider" placeholder="受訓單位" required className="px-3 py-2 text-sm border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none" />
+                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <input name="provider" placeholder="受訓單位" required className="px-3 py-2 text-sm border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none h-10" />
                             <div className="relative">
-                              <input id="training-course-hours" type="number" step="0.5" name="hours" placeholder="時數" required className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none pr-8" />
+                              <input id="training-course-hours" type="number" step="0.5" name="hours" placeholder="時數" required className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none pr-8 h-10" />
                               <span className="absolute right-3 top-2.5 text-xs text-slate-400">hr</span>
                             </div>
-                            <input type="date" name="date" required className="px-3 py-2 text-sm border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none" />
+                            <input type="date" name="date" required className="px-3 py-2 text-sm border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none h-10" />
                           </div>
-                          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                            <div>
+                          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                            <div className="col-span-1">
                               <label className="block text-[10px] font-bold text-slate-400 mb-1">資格期限</label>
-                              <input type="date" name="expiryDate" required className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none" />
+                              <input type="date" name="expiryDate" required className="w-full px-3 py-2 text-xs lg:text-sm border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none h-10" />
                             </div>
-                            <div>
+                            <div className="col-span-1">
                               <label className="block text-[10px] font-bold text-slate-400 mb-1">預定回訓日</label>
-                              <input type="date" name="retrainingDate" required className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none" />
+                              <input type="date" name="retrainingDate" required className="w-full px-3 py-2 text-xs lg:text-sm border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none h-10" />
                             </div>
-                            <div className="flex items-end">
-                              <button type="submit" className="w-full py-2 bg-indigo-600 text-white rounded-lg text-sm font-bold hover:bg-indigo-700 transition-all">登錄訓練紀錄</button>
+                            <div className="col-span-2 sm:col-span-1 flex items-end">
+                              <button type="submit" className="w-full h-10 bg-indigo-600 text-white rounded-lg text-sm font-bold hover:bg-indigo-700 transition-all shadow-md">登錄紀錄</button>
                             </div>
                           </div>
                         </form>
@@ -703,7 +703,7 @@ const PersonnelModule: React.FC<PersonnelModuleProps> = ({ state, setState }) =>
           </div>
         </div>
       </div>
-    </div >
+    </div>
   );
 };
 
